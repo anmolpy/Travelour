@@ -1,0 +1,2 @@
+# Conversation ownership
+`run_travel_agent(..., user_id=verified_user_id)` now requires a server-authenticated identity and namespaces every checkpoint by that identity. Never take `user_id` from a request body, URL, or unverified header. An HTTP authentication layer is still required before exposing this prototype; `app.py` does not implement one. Old unscoped checkpoints are intentionally inaccessible through this entry point. A conversation ID alone no longer selects another user's checkpoint.
