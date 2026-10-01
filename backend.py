@@ -1,3 +1,4 @@
+from session_identity import checkpoint_identity
 import os
 import certifi
 from dotenv import load_dotenv
@@ -191,13 +192,12 @@ travel_graph = graph.compile(checkpointer=checkpointer)
 
 
 #function for FastAPI
-def run_travel_agent(user_input: str, thread_id: str | None = None):
-    if not thread_id:
-        thread_id = f"user_{uuid.uuid4().hex}"
+def run_travel_agent(user_input: str, thread_id: str | None = None, *, user_id: str):
+    thread_id, checkpoint_key = checkpoint_identity(user_id, thread_id)
 
     config = {
         "configurable": {
-            "thread_id": thread_id
+            "thread_id": checkpoint_key
         }
     }
 
